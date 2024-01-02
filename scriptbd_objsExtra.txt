@@ -1,0 +1,60 @@
+create database objsExtra;
+use objsExtra;
+
+CREATE TABLE usuarios(
+id_usuario INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+usuario varchar(64) NOT NULL,
+password varchar(100) NOT NULL,
+nombre varchar(100) NOT NULL,
+direccion varchar(128),
+telefono varchar(20),
+correo varchar(100) NOT NULL,
+tipo int(1) NOT NULL
+);
+
+INSERT INTO usuarios(usuario,password,nombre,direccion,telefono,correo,tipo)
+VALUES('Jose','123','Jose Perez','3 sur','222222','jose@gmail.com','1');
+INSERT INTO usuarios(usuario,password,nombre,direccion,telefono,correo,tipo)
+VALUES('Maria','1234','Maria Lopez','2 poniente','222223','maria@gmail.com','1');
+INSERT INTO usuarios(usuario,password,nombre,direccion,telefono,correo,tipo)
+VALUES('Ricardo','12345','Ricardo Perez','3 Norte','222225','Ricardo@gmail.com','0');
+
+CREATE TABLE objetos(
+id_objeto INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+nombre varchar(64) NOT NULL,
+descripcion varchar(128) NOT NULL,
+imagen varchar(150)
+);
+
+INSERT INTO objetos(nombre,descripcion,imagen)
+VALUES('Balon azul','balon azul de basquetbol NIKE','balon.jpg');
+INSERT INTO objetos(nombre,descripcion,imagen)
+VALUES('Credencial','credencial estudiantil','credencial.jpg');
+INSERT INTO objetos(nombre,descripcion,imagen)
+VALUES('llaves','juego de 5 llaves con un llavero del cruz azul','llaves.jpg');
+INSERT INTO objetos(nombre,descripcion,imagen)
+VALUES('celular','samsung galaxy note 7 con funda de Hello Kittie','celular.jpg');
+INSERT INTO objetos(nombre,descripcion,imagen)
+VALUES('gorra buap','gorra blanca de color blanco, con logo de la buap azul tejido','gorra.jpg');
+
+CREATE TABLE reportes(
+id_reporte INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+id_usuario INT NOT NULL,
+id_objeto INT NOT NULL,
+fecha date NOT NULL,
+estatus int(1) NOT NULL,
+FOREIGN KEY(id_usuario) REFERENCES usuarios(id_usuario),
+FOREIGN KEY(id_objeto) REFERENCES objetos(id_objeto)
+);
+
+
+INSERT INTO reportes(id_usuario,id_objeto,fecha,estatus)
+VALUES(1,2,'2022-06-13',0);
+INSERT INTO reportes(id_usuario,id_objeto,fecha,estatus)
+VALUES(2,5,'2022-06-14',1);
+INSERT INTO reportes(id_usuario,id_objeto,fecha,estatus)
+VALUES(2,1,'2022-06-13',0);
+
+SELECT reportes.id_reporte, objetos.nombre, objetos.imagen, 
+objetos.descripcion, usuarios.usuario from reportes, objetos, usuarios
+where reportes.id_objeto=objetos.id_objeto and usuarios.id_usuario=reportes.id_usuario;
